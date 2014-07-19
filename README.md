@@ -12,11 +12,9 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
         <serviceProfile
             id="/system/cordovagearprovider"
             name="cordovagearprovider"
-            role="provider"
-            serviceImpl="net.trentgardner.cordova.galaxygear.service.GearProviderService"
-            version="1.0"
-            serviceLimit="ANY"
-	    	serviceTimeout="10">
+            role="consumer"
+            version="2.0" >
+            
             <supportedTransports>
                 <transport type="TRANSPORT_BT" />
             </supportedTransports>
@@ -25,10 +23,21 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
                 id="104"
                 dataRate="low"
                 priority="low"
-                reliability= "enable"/>   
-    	</serviceProfile>
+                reliability="enable" >
+            </serviceChannel>
+        </serviceProfile>
 A great example of how to do this is the Hello Accessory example from the [SDK](http://developer.samsung.com/samsung-gear) 
 
-2. Add your compiled Tizen widget (.wgt file) to `CordovaGearProvider/assets` and deploy CordovaGearProvider.
+3. Add the plugin to your cordova project.
 
-3. Add CordovaGearPlugin to your cordova project and follow the example provided.
+## Example
+
+	GalaxyGear.onConnect(function(e) {
+		alert("Connection Successfully Established - handle: " + e.handle);
+		
+		GalaxyGear.onDataReceived(e.handle, function(e) {
+			alert("Data received - handle: " + e.handle + " data: "+ e.data);
+		});
+		
+		GalaxyGear.sendData(e.handle, "Hello From Cordova!");
+	});

@@ -12,6 +12,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -32,9 +33,10 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 	private final String ACTION_ONERROR = "onError";
 	private final String ACTION_SENDDATA = "sendData";
 
-	private final String SERVICE_INTENT_ACTION = "net.trentgardner.cordova.galaxygear.service.GearProviderService";
+	private final String SERVICE_INTENT_ACTION = "net.trentgardner.cordova.galaxygear.GearProviderService";
 
-	private GearMessageApi api;
+	private GearMessageApi api = null;
+	private Intent serviceIntent = null;
 
 	private SparseArray<GearConnection> connections = new SparseArray<GearConnection>();
 
@@ -144,11 +146,16 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 		super.initialize(cordova, webView);
 
 		Log.d(TAG, "initialize");
-
-		Intent intent = new Intent();
-		intent.setAction(SERVICE_INTENT_ACTION);
-
-		this.cordova.getActivity().bindService(intent, serviceConnection,
+		
+		Activity context = cordova.getActivity();
+		
+		serviceIntent = new Intent(SERVICE_INTENT_ACTION);
+		
+		Log.d(TAG, "Attempting to start service");
+		context.startService(serviceIntent);
+		
+		Log.d(TAG, "Attempting to bind to service");
+		context.bindService(serviceIntent, serviceConnection,
 				Context.BIND_AUTO_CREATE);
 	}
 
@@ -175,10 +182,13 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 		Log.d(TAG, "onDestroy");
 
 		try {
+			Activity context = cordova.getActivity();
+			
 			if (api != null)
 				api.removeListener(messageListener);
 
-			cordova.getActivity().unbindService(serviceConnection);
+			context.unbindService(serviceConnection);
+			context.stopService(serviceIntent);
 		} catch (Throwable t) {
 			// catch any issues, typical for destroy routines
 			// even if we failed to destroy something, we need to continue

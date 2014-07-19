@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
+	id="net.trentgardner.cordova.galaxygear"
+	version="0.0.1">
+
+	<name>Galaxy Gear Connector</name>
+
+    <license>Apache 2.0</license>
+	
+	<engines>
+		<engine name="cordova" version=">=3.0.0" />
+	</engines>
+	
+	<platform name="android">
+	
+		<js-module src="www/galaxygear.js" name="GalaxyGear">
+			<clobbers target="GalaxyGear" />
+		</js-module>
+
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="galaxygear" >
+				<param name="android-package" value="net.trentgardner.cordova.galaxygear.GalaxyGearPlugin"/>
+			</feature>
+		</config-file>
+		
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.BLUETOOTH" />
+			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+			<uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
+			<uses-permission android:name="com.samsung.wmanager.APP" />
+			<uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" /> 
+			<uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" /> 
+			<uses-permission android:name="com.samsung.WATCH_APP_TYPE.Integrated"/>
+        </config-file>
+		
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<service android:name="net.trentgardner.cordova.galaxygear.GearProviderService" 
+					 android:process=":remote">
+				<intent-filter >
+					<action android:name="net.trentgardner.cordova.galaxygear.GearProviderService"/>
+				</intent-filter>
+			</service>
+
+			<receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
+				<intent-filter>
+					<action android:name="android.accessory.service.action.ACCESSORY_SERVICE_CONNECTION_IND" />
+				</intent-filter>
+			</receiver>
+			
+			<receiver android:name="com.samsung.android.sdk.accessory.RegisterUponInstallReceiver" >
+				<intent-filter>
+					<action android:name="android.accessory.device.action.REGISTER_AFTER_INSTALL" />
+				</intent-filter>
+			</receiver>
+			
+			<meta-data 
+				android:name="GearAppType" 
+				android:value="wgt"/>
+				
+			<meta-data
+				android:name="AccessoryServicesLocation"
+				android:value="/res/xml/accessoryservices.xml" />
+		</config-file>
+		
+		<source-file src="xml/accessoryservices.xml" target-dir="res/xml" />
+		<source-file src="libs/accessory-v2.0.19.jar" target-dir="libs" />
+		<source-file src="libs/sdk-v1.0.0.jar" target-dir="libs" />
+		<source-file src="src/android/GalaxyGearPlugin.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
+		<source-file src="src/android/GearProviderService.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
+        <source-file src="aidl/android/GearMessageApi.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
+        <source-file src="aidl/android/GearMessageListener.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
+	</platform>
+</plugin>

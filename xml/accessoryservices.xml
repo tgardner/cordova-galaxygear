@@ -32,7 +32,7 @@
             id="/system/cordovagearprovider"
             name="cordovagearprovider"
             role="provider"
-            serviceImpl="net.trentgardner.cordova.galaxygear.service.GearProviderService"
+            serviceImpl="net.trentgardner.cordova.galaxygear.GearProviderService"
             version="1.0"
             serviceLimit="ANY"
 	    	serviceTimeout="10">
@@ -45,7 +45,7 @@
                 dataRate="low"
                 priority="low"
                 reliability= "enable"/>   
-    </serviceProfile>
+		</serviceProfile>
     </application>
 
 </resources>

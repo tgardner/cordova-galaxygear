@@ -1,4 +1,4 @@
-package net.trentgardner.cordova.galaxygear.service;
+package net.trentgardner.cordova.galaxygear;
 
 import java.io.IOException;
 import java.util.ArrayList;
