@@ -12,7 +12,7 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
 
 1. Add the plugin to your project.
 
-2. Configure your tizen application to use the following serviceProfile
+2. Modify your Tizen project to use the following serviceProfile by editing the application node of the `res/xml/assessoryservices.xml` file
 
         <serviceProfile
             id="/system/cordovagearprovider"
@@ -31,6 +31,7 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
                 reliability="enable" >
             </serviceChannel>
         </serviceProfile>
+Note: You should ensure that you have the relevant `<tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>` line in the `config.xml` file as well.  
 A great example of how to do this is the Hello Accessory example from the [SDK](http://developer.samsung.com/samsung-gear) 
 
 ## Example
