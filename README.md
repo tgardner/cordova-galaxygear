@@ -5,9 +5,14 @@ The plugin has functions that allows your app to have bidirectional communicatio
 
 It supports the various Android Samsung models listed [here](http://www.samsung.com/global/microsite/gear/gear2_features.html).
 
+# Installation
+`cordova plugin add net.trentgardner.cordova.galaxygear`
+
 ## Usage
 
-1. Configure your tizen application to use the following serviceProfile
+1. Add the plugin to your project.
+
+2. Configure your tizen application to use the following serviceProfile
 
         <serviceProfile
             id="/system/cordovagearprovider"
@@ -28,16 +33,15 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
         </serviceProfile>
 A great example of how to do this is the Hello Accessory example from the [SDK](http://developer.samsung.com/samsung-gear) 
 
-3. Add the plugin to your cordova project.
-
 ## Example
-
-	GalaxyGear.onConnect(function(e) {
-		alert("Connection Successfully Established - handle: " + e.handle);
-		
-		GalaxyGear.onDataReceived(e.handle, function(e) {
-			alert("Data received - handle: " + e.handle + " data: "+ e.data);
-		});
-		
-		GalaxyGear.sendData(e.handle, "Hello From Cordova!");
+``` javascript
+GalaxyGear.onConnect(function(e) {
+	alert("Connection Successfully Established - handle: " + e.handle);
+	
+	GalaxyGear.onDataReceived(e.handle, function(e) {
+		alert("Data received - handle: " + e.handle + " data: "+ e.data);
 	});
+	
+	GalaxyGear.sendData(e.handle, "Hello From Cordova!");
+});
+```
