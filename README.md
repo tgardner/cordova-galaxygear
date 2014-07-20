@@ -13,28 +13,29 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
 1. Add the plugin to your project.
 
 2. Add a `res/xml/assessoryservices.xml` file to your Tizen project with the following
-
-        <resources>
-            <application name="MyTizenApplication" >
-                <serviceProfile
-                    id="/system/cordovagearprovider"
-                    name="cordovagearprovider"
-                    role="consumer"
-                    version="2.0" >
-                    
-                    <supportedTransports>
-                        <transport type="TRANSPORT_BT" />
-                    </supportedTransports>
-        
-                    <serviceChannel
-                        id="104"
-                        dataRate="low"
-                        priority="low"
-                        reliability="enable" >
-                    </serviceChannel>
-                </serviceProfile>
-            </application>
-        </resources>
+  ````xml
+  <resources>
+      <application name="MyTizenApplication" >
+          <serviceProfile
+              id="/system/cordovagearprovider"
+              name="cordovagearprovider"
+              role="consumer"
+              version="2.0" >
+              
+              <supportedTransports>
+                  <transport type="TRANSPORT_BT" />
+              </supportedTransports>
+  
+              <serviceChannel
+                  id="104"
+                  dataRate="low"
+                  priority="low"
+                  reliability="enable" >
+              </serviceChannel>
+          </serviceProfile>
+      </application>
+  </resources>
+  ````
 
 3. Add `<tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>` to the `config.xml` Tizen project file.  
 A great example of this is the Hello Accessory example from the [SDK](http://developer.samsung.com/samsung-gear) 
