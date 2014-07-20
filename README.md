@@ -10,7 +10,7 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
 
 ## Usage
 
-1. Add the plugin to your project.
+1. Install the plugin in your Cordova project.
 
 2. Add a `res/xml/assessoryservices.xml` file to your Tizen project with the following
   ````xml
@@ -37,7 +37,11 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
   </resources>
   ````
 
-3. Add `<tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>` to the `config.xml` Tizen project file.  
+3. Modify the `config.xml` file in your Tizen project and add the following under the `<widget>` node
+  ````xml
+  <tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>
+  <tizen:privilege name="http://developer.samsung.com/privilege/accessoryprotocol"/>
+  ````
 A great example of this is the Hello Accessory example from the [SDK](http://developer.samsung.com/samsung-gear) 
 
 ## Example
