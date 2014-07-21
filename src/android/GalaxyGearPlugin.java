@@ -86,7 +86,7 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 			GearConnection connection = connections.get(connectionId);
 			if (connection != null) {
 				connection.onError(data);
-				// connections.delete(connectionId);
+				connections.delete(connectionId);
 			}
 		}
 

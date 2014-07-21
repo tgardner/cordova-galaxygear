@@ -15,7 +15,7 @@ It supports the various Android Samsung models listed [here](http://www.samsung.
 2. Add a `res/xml/assessoryservices.xml` file to your Tizen project with the following
   ````xml
   <resources>
-      <application name="MyTizenApplication" >
+      <application name="CordovaGearConsumer" >
           <serviceProfile
               id="/system/cordovagearprovider"
               name="cordovagearprovider"
