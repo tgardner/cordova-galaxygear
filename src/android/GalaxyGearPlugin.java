@@ -32,8 +32,8 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 	private final String ACTION_ONDATARECEIVED = "onDataReceived";
 	private final String ACTION_ONERROR = "onError";
 	private final String ACTION_SENDDATA = "sendData";
-
-	private final String SERVICE_INTENT_ACTION = "net.trentgardner.cordova.galaxygear.GearProviderService";
+	private final String PACKAGE_PREFERENCE = "GearProviderPackage";
+	private final String PROVIDER_CLASS = "net.trentgardner.cordova.galaxygear.GearProviderService";
 
 	private GearMessageApi api = null;
 	private Intent serviceIntent = null;
@@ -144,12 +144,14 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
-
-		Log.d(TAG, "initialize");
 		
 		Activity context = cordova.getActivity();
+		final String packageName = preferences.getString(PACKAGE_PREFERENCE, context.getPackageName());
 		
-		serviceIntent = new Intent(SERVICE_INTENT_ACTION);
+		Log.d(TAG, "initialize - Watch Package: " + packageName);
+
+		serviceIntent = new Intent();
+		serviceIntent.setClassName(packageName, PROVIDER_CLASS);
 		
 		Log.d(TAG, "Attempting to start service");
 		context.startService(serviceIntent);
