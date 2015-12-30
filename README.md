@@ -6,7 +6,11 @@ The plugin has functions that allows your app to have bidirectional communicatio
 It supports the various Android Samsung models listed [here](http://www.samsung.com/global/microsite/gear/gear2_features.html).
 
 ## Installation
-`cordova plugin add net.trentgardner.cordova.galaxygear`
+With Cordova CLI, from npm:
+```
+$ cordova plugin add cordova-galaxygear
+$ cordova prepare
+```
 
 ## Usage
 
