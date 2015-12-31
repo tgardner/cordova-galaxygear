@@ -1,9 +1,9 @@
 {
   "name": "cordova-galaxygear",
-  "version": "0.0.2",
-  "description": "Allows your app to have bidirectional communication with Samsung Gear 2 Series Tizen applications and Cordova applications.",
+  "version": "0.0.3",
+  "description": "Allows communication with Samsung Gear 2 Series Tizen applications and Cordova applications.",
   "cordova": {
-    "id": "net.trentgardner.cordova.galaxygear",
+    "id": "cordova-galaxygear",
     "platforms": [
       "android"
     ]
@@ -13,6 +13,12 @@
     "url": "git+https://github.com/tgardner/cordova-galaxygear.git"
   },
   "keywords": [
+    "GalaxyGear",
+    "Android",
+    "Samsung",
+    "Gear",
+    "Watch",
+    "Wearble",
     "ecosystem:cordova",
     "cordova-android"
   ],
