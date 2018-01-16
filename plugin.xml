@@ -2,7 +2,7 @@
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-galaxygear"
-        version="0.0.3">
+        version="1.0.0">
 
     <name>Galaxy Gear</name>
 
@@ -76,11 +76,16 @@
         </config-file>
         
         <source-file src="xml/accessoryservices.xml" target-dir="res/xml" />
-        <source-file src="libs/accessory-v2.0.19.jar" target-dir="libs" />
-        <source-file src="libs/sdk-v1.0.0.jar" target-dir="libs" />
+
+        <framework src="src/android/galaxygear.gradle" custom="true" type="gradleReference"/>
+        <lib-file src="libs/accessory-v2.5.3.jar"/>
+        <lib-file src="libs/sdk-v1.0.0.jar"/>
         <source-file src="src/android/GalaxyGearPlugin.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="src/android/GearProviderService.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="aidl/android/GearMessageApi.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="aidl/android/GearMessageListener.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
+        <!-- Hack for Cordova android 7, not correctly loading aidl -->
+        <source-file src="aidl/android/GearMessageApi.aidl" target-dir="app/src/main/aidl/net/trentgardner/cordova/galaxygear" />
+        <source-file src="aidl/android/GearMessageListener.aidl" target-dir="app/src/main/aidl/net/trentgardner/cordova/galaxygear" />
     </platform>
 </plugin>
