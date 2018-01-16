@@ -1,17 +1,5 @@
 package net.trentgardner.cordova.galaxygear;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.cordova.CordovaArgs;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.PluginResult;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,18 +10,20 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.util.SparseArray;
 
-import net.trentgardner.cordova.galaxygear.GearMessageApi;
-import net.trentgardner.cordova.galaxygear.GearMessageListener;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GalaxyGearPlugin extends CordovaPlugin {
 	private final String TAG = GalaxyGearPlugin.class.getSimpleName();
-
-	private final String ACTION_ONCONNECT = "onConnect";
-	private final String ACTION_ONDATARECEIVED = "onDataReceived";
-	private final String ACTION_ONERROR = "onError";
-	private final String ACTION_SENDDATA = "sendData";
-	private final String PACKAGE_PREFERENCE = "GearProviderPackage";
-	private final String PROVIDER_CLASS = "net.trentgardner.cordova.galaxygear.GearProviderService";
 
 	private GearMessageApi api = null;
 	private Intent serviceIntent = null;
@@ -92,13 +82,12 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 
 	};
 
-	private GearConnection createNewGearConnection(int connectionId) {
+	private void createNewGearConnection(int connectionId) {
 		GearConnection connection = new GearConnection(connectionId);
 		connections.put(connectionId, connection);
 
 		notifyCallbacksOfConnection(connectionId);
 
-		return connection;
 	}
 
 	private class GearConnection {
@@ -107,23 +96,23 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 		private List<CallbackContext> dataCallbacks = new ArrayList<CallbackContext>();
 		private List<CallbackContext> errorCallbacks = new ArrayList<CallbackContext>();
 
-		public GearConnection(int handle) {
+		GearConnection(int handle) {
 			mHandle = handle;
 		}
 
-		public void addDataListener(CallbackContext callback) {
+		void addDataListener(CallbackContext callback) {
 			dataCallbacks.add(callback);
 		}
 
-		public void addErrorListener(CallbackContext callback) {
+		void addErrorListener(CallbackContext callback) {
 			errorCallbacks.add(callback);
 		}
 
-		public void onDataReceived(String data) {
+		void onDataReceived(String data) {
 			notifyCallbacks(dataCallbacks, createJSONObject(mHandle, data));
 		}
 
-		public void onError(String data) {
+		void onError(String data) {
 			notifyCallbacks(errorCallbacks, createJSONObject(mHandle, data));
 		}
 
@@ -146,12 +135,12 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 		super.initialize(cordova, webView);
 		
 		Activity context = cordova.getActivity();
+		final String PACKAGE_PREFERENCE = "GearProviderPackage";
 		final String packageName = preferences.getString(PACKAGE_PREFERENCE, context.getPackageName());
 		
 		Log.d(TAG, "initialize - Watch Package: " + packageName);
 
-		serviceIntent = new Intent();
-		serviceIntent.setClassName(packageName, PROVIDER_CLASS);
+		serviceIntent = new Intent(context, GearProviderService.class);
 		
 		Log.d(TAG, "Attempting to start service");
 		context.startService(serviceIntent);
@@ -165,8 +154,12 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 	public boolean execute(String action, CordovaArgs args,
 			CallbackContext callbackContext) throws JSONException {
 
+		final String ACTION_ONCONNECT = "onConnect";
+		final String ACTION_ONDATARECEIVED = "onDataReceived";
+		final String ACTION_ONERROR = "onError";
+		final String ACTION_SENDDATA = "sendData";
 		if (ACTION_ONCONNECT.equals(action))
-			onConnect(args, callbackContext);
+			onConnect(callbackContext);
 		else if (ACTION_ONDATARECEIVED.equals(action))
 			onDataReceived(args, callbackContext);
 		else if (ACTION_ONERROR.equals(action))
@@ -219,14 +212,13 @@ public class GalaxyGearPlugin extends CordovaPlugin {
 		}
 	}
 
-	private void onConnect(final CordovaArgs args,
-			final CallbackContext callbackContext) throws JSONException {
+	private void onConnect(final CallbackContext callbackContext) throws JSONException {
 		Log.d(TAG, "onConnect");
 
 		connectCallbacks.add(callbackContext);
 
 		// Alert the client of any existing connections
-		int key = 0;
+		int key;
 		for (int i = 0; i < connections.size(); i++) {
 			key = connections.keyAt(i);
 			connect(callbackContext, key);

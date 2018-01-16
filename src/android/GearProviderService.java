@@ -1,13 +1,5 @@
 package net.trentgardner.cordova.galaxygear;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.trentgardner.cordova.galaxygear.GearMessageApi;
-import net.trentgardner.cordova.galaxygear.GearMessageListener;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -20,18 +12,18 @@ import com.samsung.android.sdk.accessory.SAAgent;
 import com.samsung.android.sdk.accessory.SAPeerAgent;
 import com.samsung.android.sdk.accessory.SASocket;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class GearProviderService extends SAAgent {
 	public static final String TAG = GearProviderService.class.getSimpleName();
 
-	public Context mContext = null;
-
-	public static final int SERVICE_CONNECTION_RESULT_OK = 0;
-
 	public static final int GALAXY_GEAR_CHANNEL_ID = 104;
 
-	private SparseArray<GalaxyGearProviderConnection> mConnectionsMap = new SparseArray<GalaxyGearProviderConnection>();
+	private final SparseArray<GalaxyGearProviderConnection> mConnectionsMap = new SparseArray<GalaxyGearProviderConnection>();
 
-	private List<GearMessageListener> listeners = new ArrayList<GearMessageListener>();
+	private final List<GearMessageListener> listeners = new ArrayList<GearMessageListener>();
 
 	private final GearMessageApi.Stub apiEndpoint = new GearMessageApi.Stub() {
 		@Override
@@ -82,7 +74,7 @@ public class GearProviderService extends SAAgent {
 
 			// Tell the new listener of any existing connections
 			synchronized (mConnectionsMap) {
-				int key = 0;
+				int key;
 				for (int i = 0; i < mConnectionsMap.size(); i++) {
 					key = mConnectionsMap.keyAt(i);
 					Log.d(TAG, Integer.toString(key));
@@ -203,10 +195,6 @@ public class GearProviderService extends SAAgent {
 		if (result == CONNECTION_SUCCESS) {
 			if (thisConnection != null) {
 				GalaxyGearProviderConnection myConnection = (GalaxyGearProviderConnection) thisConnection;
-
-				if (mConnectionsMap == null) {
-					mConnectionsMap = new SparseArray<GalaxyGearProviderConnection>();
-				}
 
 				myConnection.mConnectionId = (int) (System.currentTimeMillis() & 255);
 

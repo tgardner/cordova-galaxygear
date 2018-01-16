@@ -25,7 +25,7 @@
     </engines>
     
     <platform name="android">
-    
+
         <js-module src="www/galaxygear.js" name="GalaxyGear">
             <clobbers target="GalaxyGear" />
         </js-module>
@@ -47,39 +47,39 @@
         </config-file>
         
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <service android:name="net.trentgardner.cordova.galaxygear.GearProviderService" 
-                     android:process=":remote">
-                <intent-filter >
-                    <action android:name="net.trentgardner.cordova.galaxygear.GearProviderService"/>
+            
+            <service android:name="net.trentgardner.cordova.galaxygear.GearProviderService" android:process=":remote">
+                 <intent-filter>
+                    <action android:name="net.trentgardner.cordova.galaxygear.GearProviderService" />
                 </intent-filter>
             </service>
 
             <receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
                 <intent-filter>
-                    <action android:name="android.accessory.service.action.ACCESSORY_SERVICE_CONNECTION_IND" />
+                    <action android:name="com.samsung.accessory.action.SERVICE_CONNECTION_REQUESTED" />
                 </intent-filter>
             </receiver>
-            
+
             <receiver android:name="com.samsung.android.sdk.accessory.RegisterUponInstallReceiver" >
                 <intent-filter>
-                    <action android:name="android.accessory.device.action.REGISTER_AFTER_INSTALL" />
+                    <action android:name="com.samsung.accessory.action.REGISTER_AGENT" />
                 </intent-filter>
             </receiver>
-            
+
             <meta-data 
                 android:name="GearAppType" 
                 android:value="wgt"/>
-                
+
             <meta-data
                 android:name="AccessoryServicesLocation"
                 android:value="/res/xml/accessoryservices.xml" />
+
         </config-file>
-        
-        <source-file src="xml/accessoryservices.xml" target-dir="res/xml" />
 
         <framework src="src/android/galaxygear.gradle" custom="true" type="gradleReference"/>
         <lib-file src="libs/accessory-v2.5.3.jar"/>
         <lib-file src="libs/sdk-v1.0.0.jar"/>
+        <source-file src="xml/accessoryservices.xml" target-dir="res/xml" />
         <source-file src="src/android/GalaxyGearPlugin.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="src/android/GearProviderService.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="aidl/android/GearMessageApi.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
