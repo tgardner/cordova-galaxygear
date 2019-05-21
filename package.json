@@ -1,6 +1,6 @@
 {
   "name": "cordova-galaxygear",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allows communication with Samsung Gear 2 Series Tizen applications and Cordova applications.",
   "cordova": {
     "id": "cordova-galaxygear",

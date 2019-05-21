@@ -2,7 +2,7 @@
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-galaxygear"
-        version="1.0.0">
+        version="1.0.1">
 
     <name>Galaxy Gear</name>
 
@@ -84,8 +84,5 @@
         <source-file src="src/android/GearProviderService.java" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="aidl/android/GearMessageApi.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
         <source-file src="aidl/android/GearMessageListener.aidl" target-dir="src/net/trentgardner/cordova/galaxygear" />
-        <!-- Hack for Cordova android 7, not correctly loading aidl -->
-        <source-file src="aidl/android/GearMessageApi.aidl" target-dir="app/src/main/aidl/net/trentgardner/cordova/galaxygear" />
-        <source-file src="aidl/android/GearMessageListener.aidl" target-dir="app/src/main/aidl/net/trentgardner/cordova/galaxygear" />
     </platform>
 </plugin>
